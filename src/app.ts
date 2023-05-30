@@ -1,9 +1,9 @@
 import cors from 'cors'
-import express, { Application, Request, Response } from 'express'
+import express, { Application, Response } from 'express'
 
 const app: Application = express()
 
-   app.use(cors())
+app.use(cors())
 
 //parse data
 
