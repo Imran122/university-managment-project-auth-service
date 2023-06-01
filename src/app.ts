@@ -1,16 +1,18 @@
-import cors from "cors";
-import express, { Application } from "express";
+import cors from 'cors'
+import express, { Application, Request, Response } from 'express'
 
+const app: Application = express()
 
-const app: Application = express();
-
-app.use(cors());
+app.use(cors())
 
 //parse data
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 //app.use("/api/v1", bookRoutes);
+app.get('/', (req: Request, res: Response) => {
+  res.send('work successfully')
+})
 
-export default app;
+export default app
