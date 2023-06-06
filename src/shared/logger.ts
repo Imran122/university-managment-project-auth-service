@@ -1,26 +1,22 @@
-import path from 'path'
-import { createLogger, format, transports } from 'winston'
-import DailyRotateFile from 'winston-daily-rotate-file'
-const { combine, timestamp, label, printf, prettyPrint } = format
+/* eslint-disable no-undef */
+import path from 'path';
+import { createLogger, format, transports } from 'winston';
+import DailyRotateFile from 'winston-daily-rotate-file';
+const { combine, timestamp, label, printf } = format;
 
-//custom format
+//Customm Log Format
+
 const myFormat = printf(({ level, message, label, timestamp }) => {
-  const date = new Date(timestamp)
-  const hour = date.getHours()
-  const minutes = date.getMinutes()
-  const seconds = date.getSeconds()
-  return `${date.toDateString()}-${hour}:${minutes}:${seconds} [${label}] ${level}:${message} `
-})
+  const date = new Date(timestamp);
+  const hour = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  return `${date.toDateString()} ${hour}:${minutes}:${seconds} } [${label}] ${level}: ${message}`;
+});
 
 const logger = createLogger({
   level: 'info',
-  format: combine(
-    label({ label: 'university-system' }),
-    timestamp(),
-    myFormat,
-    prettyPrint()
-  ),
-  defaultMeta: { service: 'user-service' },
+  format: combine(label({ label: 'PH' }), timestamp(), myFormat),
   transports: [
     new transports.Console(),
     new DailyRotateFile({
@@ -28,26 +24,20 @@ const logger = createLogger({
         process.cwd(),
         'logs',
         'winston',
-        'succeses',
-        'universitysystem-%DATE%-success.log'
+        'successes',
+        'phu-%DATE%-success.log'
       ),
-      level: 'info',
-      datePattern: 'YYYY-MM-DD-HH',
+      datePattern: 'YYYY-DD-MM-HH',
       zippedArchive: true,
       maxSize: '20m',
       maxFiles: '14d',
     }),
   ],
-})
+});
+
 const errorlogger = createLogger({
   level: 'error',
-  format: combine(
-    label({ label: 'university-system' }),
-    timestamp(),
-    myFormat,
-    prettyPrint()
-  ),
-  defaultMeta: { service: 'user-service' },
+  format: combine(label({ label: 'PH' }), timestamp(), myFormat),
   transports: [
     new transports.Console(),
     new DailyRotateFile({
@@ -56,14 +46,14 @@ const errorlogger = createLogger({
         'logs',
         'winston',
         'errors',
-        'universitysystem-%DATE%-error.log'
+        'phu-%DATE%-error.log'
       ),
-      level: 'error',
-      datePattern: 'YYYY-MM-DD-HH',
+      datePattern: 'YYYY-DD-MM-HH',
       zippedArchive: true,
       maxSize: '20m',
       maxFiles: '14d',
     }),
   ],
-})
-export { logger, errorlogger }
+});
+
+export { logger, errorlogger };
